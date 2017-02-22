@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mLv.setAdapter(adapter);
 
         //动态的设置ListView高度
-        setListViewHeight(mLv);
+//        setListViewHeight(mLv);
     }
 
     //动态的设置ListView高度（拿到所有item的高度，设置到listView身上）
@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
             totalHeight += listItem.getMeasuredHeight();
         }
 
-        //拿到listView布局参数
-        ViewGroup.LayoutParams parms = listview.getLayoutParams();
         //获取分割线的总高度
         int dividerHeight = listview.getDividerHeight() * (listAdapter.getCount() - 1);
 
+        //拿到listView布局参数
+        ViewGroup.LayoutParams parms = listview.getLayoutParams();
         parms.height= totalHeight + dividerHeight;
         listview.setLayoutParams(parms);
     }
