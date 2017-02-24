@@ -1,12 +1,16 @@
 package com.fuicuiedu.xc.listview_20170222;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +20,14 @@ public class MainActivity extends AppCompatActivity {
     private ListView mLv;
     private List<String> datas;
     private ArrayAdapter<String> adapter;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        handler = new Handler();
 
         mLv = (ListView) findViewById(R.id.listview);
 
@@ -35,8 +42,52 @@ public class MainActivity extends AppCompatActivity {
 
         mLv.setAdapter(adapter);
 
+        addMoreView(mLv);
+
         //动态的设置ListView高度
 //        setListViewHeight(mLv);
+    }
+
+    //给listview加一个底部布局，点击即加载数据
+    private void addMoreView(ListView listView){
+        //拿到底部布局（加载更多的View）
+        View view = LayoutInflater.from(getApplicationContext())
+                .inflate(R.layout.view_more,null);
+        //给listview加一个底部布局
+        listView.addFooterView(view);
+
+        final Button moreBtn = (Button) view.findViewById(R.id.view_more_btn);
+        final ProgressBar morePrb = (ProgressBar) view.findViewById(R.id.view_more_prb);
+
+//        点击即加载数据
+        moreBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //视图操作，更新UI
+                moreBtn.setVisibility(View.INVISIBLE);
+                morePrb.setVisibility(View.VISIBLE);
+                //模拟请求网络数据，用handler发送一个延迟任务
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //加载更多
+                        loadMoreData();
+                        //视图操作，更新UI
+                        moreBtn.setVisibility(View.VISIBLE);
+                        morePrb.setVisibility(View.INVISIBLE);
+                        //刷新数据
+                        adapter.notifyDataSetChanged();
+                    }
+                },2000);
+            }
+        });
+    }
+
+    //加载更多
+    private void loadMoreData() {
+        for (int i = 0; i < 5; i++) {
+            datas.add("第" + i + "条数据（新）");
+        }
     }
 
     //动态的设置ListView高度（拿到所有item的高度，设置到listView身上）
