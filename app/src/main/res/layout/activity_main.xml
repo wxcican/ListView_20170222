@@ -6,19 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.fuicuiedu.xc.listview_20170222.MainActivity">
 
-    <ScrollView
-        android:id="@+id/scrollview"
+    <ListView
+        android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.fuicuiedu.xc.listview_20170222.MyListView
-                android:id="@+id/listview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="match_parent" />
 </RelativeLayout>
